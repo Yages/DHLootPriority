@@ -1,0 +1,8 @@
+## Interface: 11304
+## Title: Divine Heresy Loot Priority
+## Author: Xelzenov
+## Notes: Displays tooltips for boss loot priority from Raids we care about, these include Main Spec and Off Spec eligibility as well as Fire Resistance sets.
+## SavedVariables: 
+
+LootList.lua
+Tooltips.lua

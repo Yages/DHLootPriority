@@ -1,6 +1,6 @@
 --[[ Booleans to see if we show the tip --]]
 local DH_SHOW_TIP = IsInRaid() and GetLootMethod() == "master" and DoWeCareHere()
-local DH_DEBUG = true
+local DH_DEBUG = false
 
 --[[ Class Colours --]]
 local DH_DRUID_COLOUR = '|cFFFF7D0A'

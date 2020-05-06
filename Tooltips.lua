@@ -1,6 +1,6 @@
 --[[ Booleans to see if we show the tip --]]
 local DH_SHOW_TIP = IsInRaid() and GetLootMethod() == "master" and DoWeCareHere()
-local DH_DEBUG = false
+local DH_DEBUG = true
 
 --[[ Class Colours --]]
 local DH_DRUID_COLOUR = '|cFFFF7D0A'
@@ -15,7 +15,7 @@ local DH_WARRIOR_COLOUR = '|cFFC79C6E'
 --[[ Header Colours ]]
 local DH_PURPLE = '|cFFB242A3'
 local DH_RED = '|cFFEF163F'
-    local DH_BLUE = '|cFF83AEC6'
+local DH_BLUE = '|cFF83AEC6'
 
 --[[ This function handles the loot event display, adding data to the items tooltip. --]] 
 function DH_OnToolTipSetItem(self)
@@ -29,7 +29,7 @@ function DH_OnToolTipSetItem(self)
 
             if DH_LOOT_LIST[itemId] then
                 GameTooltip:AddLine(" ")
-                GameTooltip:AddLine(DH_RED .. "DIVINE HERESY LOOT PRIORITY", 1, 1, 1, 0)
+                GameTooltip:AddLine(DH_RED .. "DIVINE HERESY LOOT PRIORITY", 1, 1, 1, false)
 
                 local mainSpec = {}
                 local offSpec = {}
@@ -90,7 +90,7 @@ function DH_OnToolTipSetItem(self)
                 if shownSomething then 
                     -- nada
                 else 
-                    GameTooltip:AddLine(DH_BLUE .. "MAIN SPEC > OFF SPEC", 1, 1, 1, 0)
+                    GameTooltip:AddLine(DH_BLUE .. "MAIN SPEC > OFF SPEC", 1, 1, 1, false)
                 end
             end
         end
@@ -116,16 +116,16 @@ end
 function displayRoles(title, data) 
     GameTooltip:AddLine(DH_PURPLE .. title)
     if data['Healer'] ~= nil then
-        GameTooltip:AddLine(DH_BLUE .. 'HEALER »  ' .. table.concat(data['Healer'], ' '), 1, 1, 1, 0)
+        GameTooltip:AddLine(DH_BLUE .. 'HEALER »  ' .. table.concat(data['Healer'], ' '), 1, 1, 1, false)
     end
     if data['Melee DPS'] ~= nil then
-        GameTooltip:AddLine(DH_BLUE .. 'MELEE HAM »  ' .. table.concat(data['Melee DPS'], ' '), 1, 1, 1, 0)
+        GameTooltip:AddLine(DH_BLUE .. 'MELEE HAM »  ' .. table.concat(data['Melee DPS'], ' '), 1, 1, 1, false)
     end
     if data['Ranged DPS'] ~= nil then
-        GameTooltip:AddLine(DH_BLUE .. 'RANGED HAM »  ' .. table.concat(data['Ranged DPS'], ' '), 1, 1, 1, 0)
+        GameTooltip:AddLine(DH_BLUE .. 'RANGED HAM »  ' .. table.concat(data['Ranged DPS'], ' '), 1, 1, 1, false)
     end
     if data['Tank'] ~= nil then
-        GameTooltip:AddLine(DH_BLUE .. 'TANK »  ' .. table.concat(data['Tank'], ' '), 1, 1, 1, 0)
+        GameTooltip:AddLine(DH_BLUE .. 'TANK »  ' .. table.concat(data['Tank'], ' '), 1, 1, 1, false)
     end
 end
 

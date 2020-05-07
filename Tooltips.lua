@@ -1,5 +1,25 @@
+--[[ Determines if we give a crap at all about the instance for looting. --]]
+function DH_DoWeCareHere()
+    local doWeCare = false
+    local instance = GetRealZoneText()
+    local instancesWeCareAbout = {
+        "Molten Core",
+        "Blackwing Lair",
+        "Onyxia's Lair",
+        "Zul'Gurub",
+        'Ragefire Chasm' -- testing
+    };
+
+    for k,v in pairs(instancesWeCareAbout) do
+       if (v == instance) then
+        doWeCare = true
+       end
+    end
+
+    return doWeCare
+end
+
 --[[ Booleans to see if we show the tip --]]
-local DH_SHOW_TIP = IsInRaid() and GetLootMethod() == "master" and DoWeCareHere()
 local DH_DEBUG = false
 
 --[[ Class Colours --]]
@@ -21,7 +41,7 @@ local DH_BLUE = '|cFF83AEC6'
 function DH_OnToolTipSetItem(self)
     --[[ This checks if we're in raid, have master looting on, and that we care about the instance. --]]
     
-    if (DH_DEBUG or DH_SHOW_TIP) then
+    if (DH_DEBUG or (IsInRaid() and GetLootMethod() == "master" and DH_DoWeCareHere())) then
         local name, link = self:GetItem()
         if link then 
             local linkSplit = DH_Split(link, ':')
@@ -175,23 +195,6 @@ function DH_MapClass(type)
     return types[type];
 end
 
---[[ Determines if we give a crap at all about the instance for looting. --]]
-function DH_DoWeCareHere()
-    local doWeCare = false;
-    local instance = GetRealZoneText();
-    local instancesWeCareAbout = {
-        "Molten Core",
-        "Blackwing Lair",
-        "Onyxia's Lair",
-        "Zul'Gurub"
-    };
-
-    for k,v in instancesWeCareAbout do
-       if (v == instance) then
-        doWeCare = true;
-       end
-    end
-end
 
 --[[ Hooks the function into the tooltip renderer --]]
 GameTooltip:HookScript("OnTooltipSetItem", DH_OnToolTipSetItem)

@@ -7,6 +7,9 @@ function DH_DoWeCareHere()
         "Blackwing Lair",
         "Onyxia's Lair",
         "Zul'Gurub",
+        "Ruins of Ahn'Qiraj",
+        "Temple of Ahn'Qiraj",
+        "Naxxramas",
         'Ragefire Chasm' -- testing
     };
 
@@ -49,7 +52,7 @@ function DH_OnToolTipSetItem(self)
 
             if DH_LOOT_LIST[itemId] then
                 GameTooltip:AddLine(" ")
-                GameTooltip:AddLine(DH_RED .. "DIVINE HERESY LOOT PRIORITY", 1, 1, 1, false)
+                GameTooltip:AddLine(DH_RED .. "DH LOOT PRIORITY", 1, 1, 1, false)
 
                 local mainSpec = {}
                 local offSpec = {}
@@ -91,26 +94,26 @@ function DH_OnToolTipSetItem(self)
                 local next = next
                 local shownSomething = false
                 if next(mainSpec) ~= nil then
-                    displayRoles("MAIN SPEC", mainSpec)
+                    displayRoles("MS", mainSpec)
                     shownSomething = true
                 end
                 if next(offSpec) ~= nil then
-                    displayRoles("OFF SPEC", offSpec)
+                    displayRoles("OS", offSpec)
                     shownSomething = true
                 end
                 if next(frSpec) ~= nil then
-                    displayRoles("FIRE RESISTANCE", frSpec)
+                    displayRoles("RESIST", frSpec)
                     shownSomething = true
                 end
                 if next(lootCouncil) ~= nil then
-                    displayRoles("LOOT COUNCIL", lootCouncil)
+                    displayRoles("LC", lootCouncil)
                     shownSomething = true
                 end
 
                 if shownSomething then 
                     -- nada
                 else 
-                    GameTooltip:AddLine(DH_BLUE .. "MAIN SPEC > OFF SPEC", 1, 1, 1, false)
+                    GameTooltip:AddLine(DH_BLUE .. "MS > OS", 1, 1, 1, false)
                 end
             end
         end
@@ -135,38 +138,38 @@ end
 --[[ Displays the role data for each table. --]]
 function displayRoles(title, data) 
     GameTooltip:AddLine(DH_PURPLE .. title)
-    if data['Healer'] ~= nil then
-        GameTooltip:AddLine(DH_BLUE .. 'HEALER »  ' .. table.concat(data['Healer'], ' '), 1, 1, 1, false)
+    if data['HEALS'] ~= nil then
+        GameTooltip:AddLine(DH_BLUE .. 'HEALS »  ' .. table.concat(data['HEALS'], ' '), 1, 1, 1, false)
     end
-    if data['Melee DPS'] ~= nil then
-        GameTooltip:AddLine(DH_BLUE .. 'MELEE HAM »  ' .. table.concat(data['Melee DPS'], ' '), 1, 1, 1, false)
+    if data['MDPS'] ~= nil then
+        GameTooltip:AddLine(DH_BLUE .. 'MDPS »  ' .. table.concat(data['MDPS'], ' '), 1, 1, 1, false)
     end
-    if data['Ranged DPS'] ~= nil then
-        GameTooltip:AddLine(DH_BLUE .. 'RANGED HAM »  ' .. table.concat(data['Ranged DPS'], ' '), 1, 1, 1, false)
+    if data['RDPS'] ~= nil then
+        GameTooltip:AddLine(DH_BLUE .. 'RDPS »  ' .. table.concat(data['RDPS'], ' '), 1, 1, 1, false)
     end
-    if data['Tank'] ~= nil then
-        GameTooltip:AddLine(DH_BLUE .. 'TANK »  ' .. table.concat(data['Tank'], ' '), 1, 1, 1, false)
+    if data['TANK'] ~= nil then
+        GameTooltip:AddLine(DH_BLUE .. 'TANK »  ' .. table.concat(data['TANK'], ' '), 1, 1, 1, false)
     end
 end
 
 --[[ Maps an array key position to a Role from our data --]]
 function DH_MapRole(type)
     local types = {
-        "Healer",
-        "Melee DPS",
-        "Ranged DPS",
-        "Tank",
-        "Ranged DPS",
-        "Ranged DPS",
-        "Healer",
-        "Ranged DPS",
-        "Melee DPS",
-        "Healer",
-        "Melee DPS",
-        "Ranged DPS",
-        "Ranged DPS",
-        "Melee DPS",
-        "Tank"
+        "HEALS",
+        "MDPS",
+        "RDPS",
+        "TANK",
+        "RDPS",
+        "RDPS",
+        "HEALS",
+        "RDPS",
+        "MDPS",
+        "HEALS",
+        "MDPS",
+        "RDPS",
+        "RDPS",
+        "MDPS",
+        "TANK"
     }
 
     return types[type];

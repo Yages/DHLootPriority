@@ -7,6 +7,9 @@ function DH_DoWeCareHere()
         "Blackwing Lair",
         "Onyxia's Lair",
         "Zul'Gurub",
+        "Ruins of Ahn'Qiraj",
+        "Temple of Ahn'Qiraj",
+        "Naxxramas",
         'Ragefire Chasm' -- testing
     };
 
@@ -49,39 +52,25 @@ function DH_OnToolTipSetItem(self)
 
             if DH_LOOT_LIST[itemId] then
                 GameTooltip:AddLine(" ")
-                GameTooltip:AddLine(DH_RED .. "DIVINE HERESY LOOT PRIORITY", 1, 1, 1, false)
+                GameTooltip:AddLine(DH_RED .. "DH LOOT PRIORITY", 1, 1, 1, false)
 
-                local mainSpec = {}
-                local offSpec = {}
-                local frSpec = {}
-                local lootCouncil = {}
+                local bisList = {}
+                local nearBisList = {}
                 
                 -- organise the array data into proper groups
                 for k,v in pairs(DH_LOOT_LIST[itemId]) do
                     if v == 1 then 
                         local role = DH_MapRole(k)
-                        if mainSpec[role] == nil then
-                            mainSpec[role] = {}
+                        if bisList[role] == nil then
+                            bisList[role] = {}
                         end 
-                        table.insert(mainSpec[role], DH_MapClass(k))
+                        table.insert(bisList[role], DH_MapClass(k))
                     elseif v == 2 then 
                         local role = DH_MapRole(k)
-                        if offSpec[role] == nil then
-                            offSpec[role] = {}
+                        if nearBisList[role] == nil then
+                            nearBisList[role] = {}
                         end
-                        table.insert(offSpec[role], DH_MapClass(k))
-                    elseif v == 3 then  
-                        local role = DH_MapRole(k)
-                        if frSpec[role] == nil then
-                            frSpec[role] = {}
-                        end
-                        table.insert(frSpec[role], DH_MapClass(k))
-                    elseif v == 4 then
-                        local role = DH_MapRole(k)
-                        if lootCouncil[role] == nil then
-                            lootCouncil[role] = {}
-                        end
-                        table.insert(lootCouncil[role], DH_MapClass(k))
+                        table.insert(nearBisList[role], DH_MapClass(k))
                     else 
                         -- do nothing
                     end
@@ -90,27 +79,19 @@ function DH_OnToolTipSetItem(self)
                 -- work out if we're displaying the sections, only if table not empty
                 local next = next
                 local shownSomething = false
-                if next(mainSpec) ~= nil then
-                    displayRoles("MAIN SPEC", mainSpec)
+                if next(bisList) ~= nil then
+                    displayRoles("BIS", bisList)
                     shownSomething = true
                 end
-                if next(offSpec) ~= nil then
-                    displayRoles("OFF SPEC", offSpec)
-                    shownSomething = true
-                end
-                if next(frSpec) ~= nil then
-                    displayRoles("FIRE RESISTANCE", frSpec)
-                    shownSomething = true
-                end
-                if next(lootCouncil) ~= nil then
-                    displayRoles("LOOT COUNCIL", lootCouncil)
+                if next(nearBisList) ~= nil then
+                    displayRoles("NEAR BIS", nearBisList)
                     shownSomething = true
                 end
 
                 if shownSomething then 
                     -- nada
                 else 
-                    GameTooltip:AddLine(DH_BLUE .. "MAIN SPEC > OFF SPEC", 1, 1, 1, false)
+                    GameTooltip:AddLine(DH_BLUE .. "MS > OS", 1, 1, 1, false)
                 end
             end
         end
@@ -135,38 +116,38 @@ end
 --[[ Displays the role data for each table. --]]
 function displayRoles(title, data) 
     GameTooltip:AddLine(DH_PURPLE .. title)
-    if data['Healer'] ~= nil then
-        GameTooltip:AddLine(DH_BLUE .. 'HEALER »  ' .. table.concat(data['Healer'], ' '), 1, 1, 1, false)
+    if data['HEALS'] ~= nil then
+        GameTooltip:AddLine(DH_BLUE .. 'HEALS »  ' .. table.concat(data['HEALS'], ' '), 1, 1, 1, false)
     end
-    if data['Melee DPS'] ~= nil then
-        GameTooltip:AddLine(DH_BLUE .. 'MELEE HAM »  ' .. table.concat(data['Melee DPS'], ' '), 1, 1, 1, false)
+    if data['MDPS'] ~= nil then
+        GameTooltip:AddLine(DH_BLUE .. 'MDPS »  ' .. table.concat(data['MDPS'], ' '), 1, 1, 1, false)
     end
-    if data['Ranged DPS'] ~= nil then
-        GameTooltip:AddLine(DH_BLUE .. 'RANGED HAM »  ' .. table.concat(data['Ranged DPS'], ' '), 1, 1, 1, false)
+    if data['RDPS'] ~= nil then
+        GameTooltip:AddLine(DH_BLUE .. 'RDPS »  ' .. table.concat(data['RDPS'], ' '), 1, 1, 1, false)
     end
-    if data['Tank'] ~= nil then
-        GameTooltip:AddLine(DH_BLUE .. 'TANK »  ' .. table.concat(data['Tank'], ' '), 1, 1, 1, false)
+    if data['TANK'] ~= nil then
+        GameTooltip:AddLine(DH_BLUE .. 'TANK »  ' .. table.concat(data['TANK'], ' '), 1, 1, 1, false)
     end
 end
 
 --[[ Maps an array key position to a Role from our data --]]
 function DH_MapRole(type)
     local types = {
-        "Healer",
-        "Melee DPS",
-        "Ranged DPS",
-        "Tank",
-        "Ranged DPS",
-        "Ranged DPS",
-        "Healer",
-        "Ranged DPS",
-        "Melee DPS",
-        "Healer",
-        "Melee DPS",
-        "Ranged DPS",
-        "Ranged DPS",
-        "Melee DPS",
-        "Tank"
+        "HEALS",
+        "MDPS",
+        "RDPS",
+        "TANK",
+        "RDPS",
+        "RDPS",
+        "HEALS",
+        "RDPS",
+        "MDPS",
+        "HEALS",
+        "MDPS",
+        "RDPS",
+        "RDPS",
+        "MDPS",
+        "TANK"
     }
 
     return types[type];

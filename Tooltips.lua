@@ -54,37 +54,23 @@ function DH_OnToolTipSetItem(self)
                 GameTooltip:AddLine(" ")
                 GameTooltip:AddLine(DH_RED .. "DH LOOT PRIORITY", 1, 1, 1, false)
 
-                local mainSpec = {}
-                local offSpec = {}
-                local frSpec = {}
-                local lootCouncil = {}
+                local bisList = {}
+                local nearBisList = {}
                 
                 -- organise the array data into proper groups
                 for k,v in pairs(DH_LOOT_LIST[itemId]) do
                     if v == 1 then 
                         local role = DH_MapRole(k)
-                        if mainSpec[role] == nil then
-                            mainSpec[role] = {}
+                        if bisList[role] == nil then
+                            bisList[role] = {}
                         end 
-                        table.insert(mainSpec[role], DH_MapClass(k))
+                        table.insert(bisList[role], DH_MapClass(k))
                     elseif v == 2 then 
                         local role = DH_MapRole(k)
-                        if offSpec[role] == nil then
-                            offSpec[role] = {}
+                        if nearBisList[role] == nil then
+                            nearBisList[role] = {}
                         end
-                        table.insert(offSpec[role], DH_MapClass(k))
-                    elseif v == 3 then  
-                        local role = DH_MapRole(k)
-                        if frSpec[role] == nil then
-                            frSpec[role] = {}
-                        end
-                        table.insert(frSpec[role], DH_MapClass(k))
-                    elseif v == 4 then
-                        local role = DH_MapRole(k)
-                        if lootCouncil[role] == nil then
-                            lootCouncil[role] = {}
-                        end
-                        table.insert(lootCouncil[role], DH_MapClass(k))
+                        table.insert(nearBisList[role], DH_MapClass(k))
                     else 
                         -- do nothing
                     end
@@ -93,20 +79,12 @@ function DH_OnToolTipSetItem(self)
                 -- work out if we're displaying the sections, only if table not empty
                 local next = next
                 local shownSomething = false
-                if next(mainSpec) ~= nil then
-                    displayRoles("MS", mainSpec)
+                if next(bisList) ~= nil then
+                    displayRoles("BIS", bisList)
                     shownSomething = true
                 end
-                if next(offSpec) ~= nil then
-                    displayRoles("OS", offSpec)
-                    shownSomething = true
-                end
-                if next(frSpec) ~= nil then
-                    displayRoles("RESIST", frSpec)
-                    shownSomething = true
-                end
-                if next(lootCouncil) ~= nil then
-                    displayRoles("LC", lootCouncil)
+                if next(nearBisList) ~= nil then
+                    displayRoles("NEAR BIS", nearBisList)
                     shownSomething = true
                 end
 
